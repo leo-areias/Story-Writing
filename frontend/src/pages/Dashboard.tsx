@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useStories } from '../hooks/useStories';
 import { Button } from '../components/ui/Button';
 import { LoadingCard } from '../components/ui/Loading';
@@ -8,6 +9,7 @@ import { Plus, BookOpen, Users, FileText, PenLine, RefreshCw, Eye, Check, Pause 
 export function Dashboard() {
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [userId] = useState('leo'); // In a real app, this would come from auth context
+  const navigate = useNavigate();
 
   const {
     stories,
@@ -20,8 +22,7 @@ export function Dashboard() {
   } = useStories(userId);
 
   const handleViewStory = (story: any) => {
-    // Navigate to story detail page
-    console.log('View story:', story._id);
+    navigate(`/story/${story._id}`);
   };
 
   const handleManualRefresh = () => {
