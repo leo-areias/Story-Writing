@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { apiService } from '../services/api';
 import { Button } from './ui/Button';
-import { Card, CardContent, CardHeader } from './ui/Card';
 import { GENRE_OPTIONS, type CreateStoryForm } from '../types';
 import { cn, validateStoryTitle, validateStoryPremise } from '../utils';
 import { X, BookOpen, Sparkles } from 'lucide-react';
@@ -135,17 +134,17 @@ export function CreateStoryModal({ onClose, onSuccess }: CreateStoryModalProps) 
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-      <Card className="w-full max-w-2xl max-h-[90vh] overflow-y-auto">
-        <CardHeader className="flex items-center justify-between">
+      <div className="w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-white rounded-lg border border-stone-300 shadow-xl">
+        <div className="flex items-center justify-between p-6 border-b border-stone-200">
           <div className="flex items-center space-x-3">
-            <div className="p-2 bg-accent-100 rounded-lg">
-              <BookOpen className="w-6 h-6 text-accent-600" />
+            <div className="p-2 bg-stone-100 rounded-lg">
+              <BookOpen className="w-6 h-6 text-amber-700" />
             </div>
             <div>
-              <h2 className="text-xl font-semibold text-primary-900">
+              <h2 className="text-xl font-semibold text-gray-800 font-serif">
                 Create New Story
               </h2>
-              <p className="text-sm text-primary-600">
+              <p className="text-sm text-gray-700">
                 Let AI help you create an amazing story
               </p>
             </div>
@@ -155,16 +154,17 @@ export function CreateStoryModal({ onClose, onSuccess }: CreateStoryModalProps) 
             size="sm"
             onClick={onClose}
             disabled={isLoading}
+            className="bg-white hover:bg-gray-50 text-gray-800 border-gray-300"
           >
             <X className="w-5 h-5" />
           </Button>
-        </CardHeader>
+        </div>
 
-        <CardContent>
+        <div className="p-6">
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Title */}
             <div>
-              <label htmlFor="title" className="block text-sm font-medium text-primary-700 mb-2">
+              <label htmlFor="title" className="block text-sm font-medium text-gray-800 mb-2">
                 Story Title *
               </label>
               <input
@@ -173,20 +173,20 @@ export function CreateStoryModal({ onClose, onSuccess }: CreateStoryModalProps) 
                 value={form.title}
                 onChange={(e) => handleInputChange('title', e.target.value)}
                 className={cn(
-                  'input w-full',
-                  errors.title && 'input-error'
+                  'w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 bg-white',
+                  errors.title ? 'border-red-300' : 'border-stone-300'
                 )}
                 placeholder="Enter your story title..."
                 disabled={isLoading}
               />
               {errors.title && (
-                <p className="text-sm text-error-600 mt-1">{errors.title}</p>
+                <p className="text-sm text-red-600 mt-1">{errors.title}</p>
               )}
             </div>
 
             {/* Premise */}
             <div>
-              <label htmlFor="premise" className="block text-sm font-medium text-primary-700 mb-2">
+              <label htmlFor="premise" className="block text-sm font-medium text-gray-800 mb-2">
                 Story Premise *
               </label>
               <textarea
@@ -194,30 +194,30 @@ export function CreateStoryModal({ onClose, onSuccess }: CreateStoryModalProps) 
                 value={form.premise}
                 onChange={(e) => handleInputChange('premise', e.target.value)}
                 className={cn(
-                  'input w-full min-h-[100px] resize-none',
-                  errors.premise && 'input-error'
+                  'w-full min-h-[100px] px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 bg-white resize-none',
+                  errors.premise ? 'border-red-300' : 'border-stone-300'
                 )}
                 placeholder="Describe your story idea, setting, or what you want to explore..."
                 disabled={isLoading}
               />
               {errors.premise && (
-                <p className="text-sm text-error-600 mt-1">{errors.premise}</p>
+                <p className="text-sm text-red-600 mt-1">{errors.premise}</p>
               )}
-              <p className="text-xs text-primary-500 mt-1">
+              <p className="text-xs text-gray-500 mt-1">
                 {form.premise.length}/500 characters
               </p>
             </div>
 
             {/* Genre */}
             <div>
-              <label htmlFor="genre" className="block text-sm font-medium text-primary-700 mb-2">
+              <label htmlFor="genre" className="block text-sm font-medium text-gray-800 mb-2">
                 Genre *
               </label>
               <select
                 id="genre"
                 value={form.genre}
                 onChange={(e) => handleInputChange('genre', e.target.value)}
-                className="input w-full"
+                className="w-full px-4 py-3 border border-stone-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 bg-white"
                 disabled={isLoading}
               >
                 {GENRE_OPTIONS.map((option) => (
@@ -229,16 +229,16 @@ export function CreateStoryModal({ onClose, onSuccess }: CreateStoryModalProps) 
             </div>
 
             {/* AI Features Preview */}
-            <div className="bg-accent-50 border border-accent-200 rounded-lg p-4">
+            <div className="bg-amber-50 border border-amber-200 rounded-lg p-4">
               <div className="flex items-start space-x-3">
-                <div className="p-1 bg-accent-100 rounded">
-                  <Sparkles className="w-4 h-4 text-accent-600" />
+                <div className="p-1 bg-amber-100 rounded">
+                  <Sparkles className="w-4 h-4 text-amber-700" />
                 </div>
                 <div>
-                  <h4 className="text-sm font-medium text-accent-900 mb-1">
+                  <h4 className="text-sm font-medium text-amber-900 mb-1">
                     AI-Powered Features
                   </h4>
-                  <p className="text-xs text-accent-700">
+                  <p className="text-xs text-amber-700">
                     Our AI agents will automatically create characters, write chapters, 
                     and review your story to help bring your vision to life.
                   </p>
@@ -247,12 +247,13 @@ export function CreateStoryModal({ onClose, onSuccess }: CreateStoryModalProps) 
             </div>
 
             {/* Actions */}
-            <div className="flex items-center justify-end space-x-3 pt-4 border-t border-primary-200">
+            <div className="flex items-center justify-end space-x-3 pt-4 border-t border-stone-200">
               <Button
                 type="button"
                 variant="ghost"
                 onClick={onClose}
                 disabled={isLoading}
+                className="bg-white hover:bg-gray-50 text-gray-800 border-gray-300"
               >
                 Cancel
               </Button>
@@ -260,13 +261,14 @@ export function CreateStoryModal({ onClose, onSuccess }: CreateStoryModalProps) 
                 type="submit"
                 loading={isLoading}
                 disabled={isLoading}
+                className="bg-amber-800 hover:bg-amber-900 text-white"
               >
                 {isLoading ? 'Creating...' : 'Create Story'}
               </Button>
             </div>
           </form>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
     </div>
   );
 }
