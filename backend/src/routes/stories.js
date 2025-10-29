@@ -26,7 +26,10 @@ router.get('/', async (req, res) => {
     if (genre) query.genre = genre;
     if (status) query.status = status;
 
-    const stories = await Story.find(query).sort({ updatedAt: -1 });
+    const stories = await Story.find(query)
+      .populate('characters', 'name role personality appearance')
+      .populate('chapters', 'title content chapterNumber wordCount')
+      .sort({ updatedAt: -1 });
     const paginatedResult = paginate(stories, parseInt(page), parseInt(limit));
 
     res.json(createResponse(true, paginatedResult, 'Stories retrieved successfully'));
@@ -44,7 +47,10 @@ router.get('/public', async (req, res) => {
     let query = { isPublic: true, isActive: true };
     if (genre) query.genre = genre;
 
-    const stories = await Story.find(query).sort({ createdAt: -1 });
+    const stories = await Story.find(query)
+      .populate('characters', 'name role personality appearance')
+      .populate('chapters', 'title content chapterNumber wordCount')
+      .sort({ createdAt: -1 });
     const paginatedResult = paginate(stories, parseInt(page), parseInt(limit));
 
     res.json(createResponse(true, paginatedResult, 'Public stories retrieved successfully'));

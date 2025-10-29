@@ -92,4 +92,55 @@ characterSchema.statics.findMainCharacters = function(storyId) {
   });
 };
 
+// Pre-save middleware to clean up invalid enum values
+characterSchema.pre('save', function(next) {
+  // Clean up role field
+  if (this.role) {
+    const role = this.role.toLowerCase();
+    if (role.includes('protagonist')) {
+      this.role = 'protagonist';
+    } else if (role.includes('antagonist')) {
+      this.role = 'antagonist';
+    } else if (role.includes('supporting')) {
+      this.role = 'supporting';
+    } else if (role.includes('minor')) {
+      this.role = 'minor';
+    } else {
+      this.role = 'supporting'; // Default fallback
+    }
+  }
+
+  // Clean up relationship types
+  if (this.relationships && Array.isArray(this.relationships)) {
+    this.relationships = this.relationships.map(rel => {
+      if (rel.relationshipType) {
+        const relType = rel.relationshipType.toLowerCase();
+        // Handle complex relationship types with multiple keywords
+        if (relType.includes('friend') || relType.includes('ally') || relType.includes('friend/ally')) {
+          rel.relationshipType = 'friend';
+        } else if (relType.includes('enemy') || relType.includes('adversary') || relType.includes('unknown/adversary') || relType.includes('former colleague/adversary')) {
+          rel.relationshipType = 'enemy';
+        } else if (relType.includes('family')) {
+          rel.relationshipType = 'family';
+        } else if (relType.includes('romantic')) {
+          rel.relationshipType = 'romantic';
+        } else if (relType.includes('mentor') || relType.includes('mentor/source') || relType.includes('source of information')) {
+          rel.relationshipType = 'mentor';
+        } else if (relType.includes('rival') || relType.includes('rival/adversary')) {
+          rel.relationshipType = 'rival';
+        } else if (relType.includes('colleague') || relType.includes('superior') || relType.includes('former colleague')) {
+          rel.relationshipType = 'colleague';
+        } else if (relType.includes('acquaintance') || relType.includes('potential') || relType.includes('suspicious') || relType.includes('acquaintance/source')) {
+          rel.relationshipType = 'acquaintance';
+        } else {
+          rel.relationshipType = 'neutral'; // Default fallback
+        }
+      }
+      return rel;
+    });
+  }
+
+  next();
+});
+
 module.exports = mongoose.model('Character', characterSchema);
