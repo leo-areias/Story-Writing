@@ -58,24 +58,62 @@ This system uses a multi-agent approach where different AI agents specialize in 
    cd Story-Writing
    ```
 
-2. **Set up environment variables**
+2. **Verify Docker Installation**
+   ```bash
+   # Check Docker version
+   docker --version
+   
+   # Check Docker Compose version
+   docker-compose --version
+   
+   # Check if Docker daemon is running
+   docker info
+   ```
+
+3. **Set up environment variables**
    ```bash
    cp .env.example .env
    # Edit .env and add your Gemini API key
    GEMINI_API_KEY=your_api_key_here
    ```
 
-3. **Start MongoDB with Docker**
+4. **Start MongoDB with Docker**
    ```bash
+   # Start the services in detached mode (runs in background)
    docker-compose up -d
+   
+   # Alternative: Start with logs visible (for debugging)
+   docker-compose up
    ```
 
-4. **Install dependencies**
+5. **Verify MongoDB is running**
+   ```bash
+   # Check running containers
+   docker ps
+   
+   # Check container logs if needed
+   docker-compose logs mongodb
+   ```
+
+6. **Test MongoDB Connection**
+   ```bash
+   # Option A: Using MongoDB Shell
+   docker exec -it story-writing-mongodb mongosh
+   
+   # Option B: Using Mongo Express (Web Interface)
+   # Open browser: http://localhost:8081
+   # Login: admin / admin123
+   
+   # Option C: From local machine (if mongosh installed)
+   mongosh "mongodb://admin:password123@localhost:27017/story_writing?authSource=admin"
+   ```
+
+7. **Install dependencies**
    ```bash
    npm install
    ```
 
-5. **Start the development server**
+8. **Start the development server**
    ```bash
    npm run dev
    ```
@@ -107,6 +145,47 @@ services:
 
 volumes:
   mongodb_data:
+```
+
+## 🛠️ Useful Docker Commands
+
+### Basic Operations
+```bash
+# Stop the services
+docker-compose down
+
+# Stop and remove volumes (WARNING: This deletes all data)
+docker-compose down -v
+
+# Restart services
+docker-compose restart
+
+# View logs
+docker-compose logs -f mongodb
+
+# Execute commands in the MongoDB container
+docker exec -it story-writing-mongodb mongosh
+```
+
+### Troubleshooting
+```bash
+# Check what's using port 27017
+lsof -i :27017
+
+# Kill process using port 27017 (if needed)
+sudo kill -9 <PID>
+
+# Reset everything (clean slate)
+docker-compose down -v
+docker system prune -a
+docker-compose up -d
+
+# Check container status
+docker ps -a
+
+# View container logs
+docker-compose logs mongodb
+docker-compose logs mongo-express
 ```
 
 ## 📁 Project Structure
