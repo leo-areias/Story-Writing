@@ -28,20 +28,57 @@ This system uses a multi-agent approach where different AI agents specialize in 
 
 ## 🚀 Features
 
-- **Premise Input**: Users can provide story premises, genres, or themes
+### Current Implementation
+- **🎨 Beautiful Landing Page**: Clean, beige-themed design with paper texture
+- **📊 Interactive Dashboard**: Card-based layout showing story progress and statistics
+- **📝 Story Creation Modal**: Elegant form for creating new stories with AI assistance
+- **📖 Story Viewer**: Professional reading interface with chapter formatting
+- **🤖 AI Agent Workflow**: Automated character creation, chapter writing, and story review
+- **📱 Responsive Design**: Works perfectly on desktop, tablet, and mobile devices
+
+### Core Functionality
+- **Premise Input**: Users provide story titles, premises, and genres
 - **Multi-Agent Collaboration**: Three specialized AI agents work in sequence
-- **Branching Narratives**: Stories can have multiple paths and endings
-- **Interactive Reading**: Users can make choices that affect story direction
-- **Story Management**: Save, load, and continue stories across sessions
-- **Real-time Updates**: See story development as it happens
+- **Character Development**: AI creates detailed character profiles and relationships
+- **Chapter Writing**: AI generates engaging story chapters with proper formatting
+- **Story Review**: AI analyzes and improves story flow and consistency
+- **Real-time Progress**: Visual indicators show AI agent completion status
+- **Story Management**: Save, view, and manage multiple stories
 
 ## 🛠️ Tech Stack
 
-- **Frontend**: React, TypeScript, Tailwind CSS
-- **Backend**: Node.js, Express.js
+- **Frontend**: React, TypeScript, Tailwind CSS, Vite
+- **Backend**: Node.js, Express.js, Mongoose
 - **Database**: MongoDB (Dockerized)
-- **AI**: Google Gemini API
+- **AI**: Google Gemini API (gemini-2.0-flash-exp)
 - **Development**: Docker, Git
+- **Styling**: Custom beige theme with paper texture effects
+
+## 🎨 UI/UX Design
+
+### Design Philosophy
+- **Warm & Literary**: Beige color scheme with paper texture for a book-like feel
+- **Clean & Minimalist**: Uncluttered interface focusing on content
+- **Professional**: Sophisticated typography and spacing
+- **Accessible**: High contrast and readable text
+
+### Color Palette
+- **Primary Background**: Beige gradient (`stone-100` to `amber-50` to `stone-200`)
+- **Text Colors**: Soft black (`gray-800`) for headings, `gray-700` for body text
+- **Accent Colors**: Brown (`amber-800`) for primary buttons
+- **Cards**: Clean white backgrounds with subtle stone borders
+
+### Typography
+- **Headings**: Serif fonts for literary feel
+- **Body Text**: Clean, readable sans-serif
+- **Chapter Titles**: Large, elegant formatting
+- **Code**: Monospace for technical content
+
+### Components
+- **Cards**: Rounded corners with subtle shadows
+- **Buttons**: Consistent styling with hover effects
+- **Forms**: Clean inputs with focus states
+- **Modals**: Elegant overlays with backdrop blur
 
 ## 📋 Getting Started
 
@@ -72,9 +109,11 @@ This system uses a multi-agent approach where different AI agents specialize in 
 
 3. **Set up environment variables**
    ```bash
+   # Copy the example environment file
    cp .env.example .env
+   
    # Edit .env and add your Gemini API key
-   GEMINI_API_KEY=your_api_key_here
+   # GEMINI_API_KEY=your_api_key_here
    ```
 
 4. **Start MongoDB with Docker**
@@ -108,15 +147,95 @@ This system uses a multi-agent approach where different AI agents specialize in 
    mongosh "mongodb://admin:password123@localhost:27017/story_writing?authSource=admin"
    ```
 
-7. **Install dependencies**
+## 🚀 Running the Application
+
+### Backend Setup
+
+1. **Navigate to backend directory**
+   ```bash
+   cd backend
+   ```
+
+2. **Install backend dependencies**
    ```bash
    npm install
    ```
 
-8. **Start the development server**
+3. **Set up backend environment**
    ```bash
-   npm run dev
+   # Copy the example environment file
+   cp .env.example .env
+   
+   # Edit .env and add your Gemini API key
+   # GEMINI_API_KEY=your_api_key_here
+   # MONGODB_URI=mongodb://admin:password123@localhost:27017/story_writing?authSource=admin
+   # PORT=3000
    ```
+
+4. **Start the backend server**
+   ```bash
+   # Development mode with auto-reload
+   npm run dev
+   
+   # Or production mode
+   npm start
+   ```
+
+   The backend will be available at `http://localhost:3000`
+
+### Frontend Setup
+
+1. **Navigate to frontend directory** (in a new terminal)
+   ```bash
+   cd frontend
+   ```
+
+2. **Install frontend dependencies**
+   ```bash
+   npm install
+   ```
+
+3. **Start the frontend development server**
+   ```bash
+   # Development mode with hot reload
+   npm run dev
+   
+   # Or build for production
+   npm run build
+   ```
+
+   The frontend will be available at `http://localhost:5173`
+
+### Complete Application Stack
+
+To run the complete application, you need **3 terminals**:
+
+**Terminal 1 - MongoDB:**
+```bash
+# Start MongoDB and Mongo Express
+docker-compose up -d
+```
+
+**Terminal 2 - Backend:**
+```bash
+cd backend
+npm install
+npm run dev
+```
+
+**Terminal 3 - Frontend:**
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+### Access Points
+
+- **Frontend Application**: http://localhost:5173
+- **Backend API**: http://localhost:3000
+- **Mongo Express (Database UI)**: http://localhost:8081
+- **API Health Check**: http://localhost:3000/health
 
 ## 🔧 Configuration
 
@@ -192,22 +311,58 @@ docker-compose logs mongo-express
 
 ```
 Story-Writing/
-├── frontend/                 # React TypeScript frontend
+├── frontend/                    # React TypeScript frontend
 │   ├── src/
-│   │   ├── components/      # React components
-│   │   ├── pages/          # Page components
-│   │   ├── hooks/          # Custom React hooks
-│   │   └── types/          # TypeScript type definitions
-│   └── package.json
-├── backend/                 # Node.js backend
+│   │   ├── components/         # React components
+│   │   │   ├── ui/            # Reusable UI components
+│   │   │   ├── StoryCard.tsx  # Story display component
+│   │   │   ├── CharacterCard.tsx
+│   │   │   └── CreateStoryModal.tsx
+│   │   ├── pages/             # Page components
+│   │   │   ├── LandingPage.tsx
+│   │   │   ├── Dashboard.tsx
+│   │   │   ├── StoryViewer.tsx
+│   │   │   ├── StoryDetail.tsx
+│   │   │   └── StoryReader.tsx
+│   │   ├── hooks/             # Custom React hooks
+│   │   │   ├── useStories.ts
+│   │   │   └── useStory.ts
+│   │   ├── services/          # API service layer
+│   │   │   └── api.ts
+│   │   ├── types/             # TypeScript type definitions
+│   │   │   └── index.ts
+│   │   ├── utils/             # Utility functions
+│   │   │   └── index.ts
+│   │   ├── App.tsx            # Main app component
+│   │   ├── main.tsx           # App entry point
+│   │   └── index.css          # Global styles
+│   ├── package.json
+│   ├── tailwind.config.js     # Tailwind CSS configuration
+│   ├── vite.config.ts         # Vite build configuration
+│   └── tsconfig.json          # TypeScript configuration
+├── backend/                    # Node.js backend
 │   ├── src/
-│   │   ├── routes/         # API routes
-│   │   ├── models/         # MongoDB models
-│   │   ├── agents/         # AI agent implementations
-│   │   └── utils/          # Utility functions
-│   └── package.json
-├── docker-compose.yml       # MongoDB container setup
-├── .env.example            # Environment variables template
+│   │   ├── routes/            # API routes
+│   │   │   ├── stories.js
+│   │   │   ├── chapters.js
+│   │   │   ├── characters.js
+│   │   │   └── agents.js
+│   │   ├── models/            # MongoDB models
+│   │   │   ├── Story.js
+│   │   │   ├── Chapter.js
+│   │   │   └── Character.js
+│   │   ├── agents/            # AI agent implementations
+│   │   │   ├── CharacterCreatorAgent.js
+│   │   │   ├── StoryWriterAgent.js
+│   │   │   └── PlotReviewerAgent.js
+│   │   ├── utils/             # Utility functions
+│   │   │   ├── database.js
+│   │   │   └── gemini.js
+│   │   └── server.js          # Express server setup
+│   ├── package.json
+│   └── .env.example
+├── docker-compose.yml         # MongoDB and Mongo Express setup
+├── .env.example              # Environment variables template
 └── README.md
 ```
 
@@ -298,11 +453,72 @@ This custom approach gives us exactly what we need for story writing without the
 
 ## 🎮 Usage
 
-1. **Start a New Story**: Provide a premise, genre, or theme
-2. **Character Creation**: Agent 1 develops characters and setting
-3. **Story Writing**: Agent 2 writes chapters with branching paths
-4. **Review & Refinement**: Agent 3 suggests improvements
-5. **Interactive Reading**: Navigate through branching story paths
+1. **Visit Landing Page**: Start at `http://localhost:5173`
+2. **Create New Story**: Click "New Story" and fill in title, premise, and genre
+3. **AI Processing**: Watch as three AI agents work automatically:
+   - Agent 1: Creates characters and setting
+   - Agent 2: Writes story chapters
+   - Agent 3: Reviews and improves the story
+4. **View Progress**: Check the dashboard for real-time progress updates
+5. **Read Story**: Click "View" to read the completed story with beautiful formatting
+
+## 🔧 Troubleshooting
+
+### Common Issues
+
+**Frontend not loading:**
+```bash
+# Clear Vite cache and reinstall
+cd frontend
+rm -rf node_modules .vite
+npm install
+npm run dev
+```
+
+**Backend connection errors:**
+```bash
+# Check if backend is running
+curl http://localhost:3000/health
+
+# Restart backend
+cd backend
+npm run dev
+```
+
+**MongoDB connection issues:**
+```bash
+# Check if MongoDB is running
+docker ps | grep mongo
+
+# Restart MongoDB
+docker-compose down
+docker-compose up -d
+```
+
+**Port conflicts:**
+```bash
+# Check what's using ports
+lsof -i :3000  # Backend
+lsof -i :5173  # Frontend
+lsof -i :27017 # MongoDB
+
+# Kill processes if needed
+sudo kill -9 <PID>
+```
+
+**API key issues:**
+- Ensure your Gemini API key is correctly set in `backend/.env`
+- Check the health endpoint: `http://localhost:3000/health`
+- Verify the key has proper permissions for Gemini API
+
+**Build errors:**
+```bash
+# Clear all caches and reinstall
+cd frontend
+rm -rf node_modules .vite dist
+npm install
+npm run build
+```
 
 ## 🤝 Contributing
 
