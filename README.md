@@ -231,6 +231,71 @@ Story-Writing/
 - Suggests improvements for character development
 - Enhances story flow and narrative structure
 
+## 🏗️ Architecture Decision: Custom Agents vs. Frameworks
+
+### Why We Built Custom Agents Instead of Using CrewAI/LangChain
+
+This project uses **custom-built AI agents** rather than popular frameworks like CrewAI or LangChain. Here's why this approach was chosen:
+
+#### **Our Custom Approach Benefits:**
+- **🎯 Domain-Specific**: Tailored specifically for story writing workflows
+- **🔧 Full Control**: Complete control over agent behavior and logic
+- **⚡ Performance**: No framework overhead or unnecessary abstractions
+- **🐛 Easy Debugging**: Simple, transparent code that's easy to troubleshoot
+- **📦 Minimal Dependencies**: Lightweight with fewer external dependencies
+- **🔗 Direct Integration**: Seamless MongoDB and Gemini API integration
+
+#### **Framework Comparison:**
+
+| Aspect | Custom Agents | LangChain.js | CrewAI (Python) |
+|--------|---------------|--------------|-----------------|
+| **Control** | ✅ Full | ⚠️ Limited | ⚠️ Limited |
+| **Dependencies** | ✅ Minimal | ❌ Heavy | ❌ Heavy |
+| **Debugging** | ✅ Easy | ❌ Complex | ❌ Complex |
+| **Customization** | ✅ Complete | ⚠️ Limited | ⚠️ Limited |
+| **Learning Curve** | ✅ Simple | ❌ Steep | ❌ Steep |
+| **Ecosystem** | ✅ Self-contained | ⚠️ JS version limited | ✅ Rich (Python) |
+| **Story-Specific Logic** | ✅ Native | ❌ Generic | ❌ Generic |
+| **Performance** | ✅ Optimized | ⚠️ Framework overhead | ⚠️ Framework overhead |
+
+#### **When to Use Each Approach:**
+
+**Use Custom Agents When:**
+- Building domain-specific applications (like story writing)
+- Need tight control over agent behavior
+- Want minimal dependencies and maximum performance
+- Have specific workflow requirements
+- Need custom error handling and validation
+
+**Use CrewAI/LangChain When:**
+- Building generic AI applications
+- Need complex agent orchestration
+- Want pre-built tools and integrations
+- Have Python backend (for CrewAI)
+- Need rapid prototyping
+
+#### **Our Implementation:**
+```javascript
+// Custom agents with story-specific methods
+class CharacterCreatorAgent {
+  async createCharactersAndSetting(storyId, storyData) {
+    // Direct Gemini API calls
+    // Custom validation and error handling
+    // Tailored for story creation workflow
+  }
+}
+
+class StoryWriterAgent {
+  async writeChapter(storyData, chapterNumber, previousChapters) {
+    // Chapter writing with branching logic
+    // Story continuity management
+    // Choice generation for interactive narratives
+  }
+}
+```
+
+This custom approach gives us exactly what we need for story writing without the complexity of forcing a general-purpose framework into our domain-specific requirements.
+
 ## 🎮 Usage
 
 1. **Start a New Story**: Provide a premise, genre, or theme
