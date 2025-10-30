@@ -195,7 +195,21 @@ This system uses a multi-agent approach where different AI agents specialize in 
    npm install
    ```
 
-3. **Start the frontend development server**
+3. **Set up frontend environment**
+   ```bash
+   # If an example env file exists
+   [ -f .env.example ] && cp .env.example .env || true
+
+   # If no example exists, create a minimal .env with Vite vars
+   # echo "VITE_API_BASE_URL=http://localhost:3000" > .env
+   ```
+
+4. **Build the frontend (recommended before first run)**
+   ```bash
+   npm run build
+   ```
+
+5. **Start the frontend development server**
    ```bash
    # Development mode with hot reload
    npm run dev
@@ -227,6 +241,7 @@ npm run dev
 ```bash
 cd frontend
 npm install
+npm run build    # build once before first run (recommended)
 npm run dev
 ```
 
